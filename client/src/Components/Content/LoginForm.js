@@ -6,10 +6,16 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { users } from './data'
 import { useNavigate } from 'react-router-dom';
+import axios from '../../axiosAuth/api/axios'; 
 
 const LoginForm = () => {
 
   const [loggedInState, setLoggedInState] = useState(false)
+  const LOGIN_URL = '/api/auth/login'
+  const [user, setUser] = useState('');
+  const [password, setPassword] = useState('');
+  const [errMsg, setErrMsg] = useState('');
+  const [success, setSuccess] = useState(false);
 
   let navigate = useNavigate()
 
@@ -17,13 +23,13 @@ const LoginForm = () => {
     e.preventDefault()
     
     // refactor form inputs: email & password
-    let email = e.target[0]
+    let user = e.target[0]
     let password = e.target[1]
     console.log(email.value)
     console.log(password.value)
 
     // condition to check against data
-    if (email.value == users[0].name && password.value == users[0].password || email.value == users[1].name && password.value == users[1].password) {
+    if (user.value == users[0].name && password.value == users[0].password || user.value == users[1].name && password.value == users[1].password) {
         console.log(true)
         setLoggedInState(true)
       
@@ -87,9 +93,9 @@ const LoginForm = () => {
                     <Row>
                         <Col sm></Col>
                         <Col sm>
-                            <Form.Group className="mb-3" controlId="formBasicEmail">
+                            <Form.Group className="mb-3" >
                             <Form.Label >Email address</Form.Label>
-                            <Form.Control type="email" placeholder="Enter email" name="email" required/>
+                            <Form.Control type="text" placeholder="Enter username" name="user" required/>
                             <Form.Text className="text-muted">
                                 We'll never share your email with anyone else.
                             </Form.Text>
